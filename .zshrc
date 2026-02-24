@@ -5,14 +5,24 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export DISABLE_AUTO_TITLE='true'
+
+# Common zsh configuration shared across machines.
 export ZSH="$HOME/.oh-my-zsh"
-export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 export SDKMAN_DIR="$HOME/.sdkman"
+
+path=(
+  "$HOME/bin"
+  "/usr/local/bin"
+  "$HOME/.local/bin"
+  "$HOME/.local/share/bob/nvim-bin"
+  "$BUN_INSTALL/bin"
+  "$HOME/.cozyutils/bin"
+  $path
+)
+export PATH
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
@@ -36,34 +46,26 @@ zstyle ':completion:*' rehash true
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 
-source $ZSH/oh-my-zsh.sh
-
+source "$ZSH/oh-my-zsh.sh"
 source "$HOME/.zsh_functions"
 
-# Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
   export EDITOR='nvim'
 fi
 
-# bun completions
-[ -s "/home/briannewton/.bun/_bun" ] && source "/home/briannewton/.bun/_bun"
-
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
 alias setenv="set -a && source .env && set +a"
 alias cmsg="cozyutils -cmsg --commit"
 alias viewjacoco="cd build/reports/jacoco/test/html && python3 -m http.server 8081"
 
-# cozyutils path
-export PATH="$HOME/.cozyutils/bin:$PATH"
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-. "/home/briannewton/.config/pd/pd.sh"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+[ -s "$HOME/.config/pd/pd.sh" ] && source "$HOME/.config/pd/pd.sh"
+
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

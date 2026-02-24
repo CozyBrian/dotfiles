@@ -60,7 +60,8 @@ fi
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 alias setenv="set -a && source .env && set +a"
-alias cmsg 
+alias cmsg="cozyutils -cmsg --commit"
+alias viewjacoco="cd build/reports/jacoco/test/html && python3 -m http.server 8081"
 
 # cozyutils path
 export PATH="$HOME/.cozyutils/bin:$PATH"

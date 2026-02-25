@@ -57,3 +57,41 @@ function tic() {
 
   tmux attach-session -t "$session_name"
 }
+
+function nic_layout() {
+  if [[ -z "$TMUX" ]]; then
+    echo "not in a tmux session. attach first."
+    return 1
+  fi
+
+  local pane_path
+  pane_path="$(tmux display-message -p "#{pane_current_path}")"
+  local window_id
+  window_id="$(tmux display-message -p "#{window_id}")"
+
+  tmux kill-pane -a
+  tmux split-window -v -c "$pane_path" -l 20%
+  tmux split-window -h -t "$window_id".1 -c "$pane_path" -l 30%
+  tmux send-keys -t "$window_id".1 "nvim ." C-m
+  tmux send-keys -t "$window_id".2 "opencode" C-m
+  tmux select-pane -t "$window_id".1
+}
+
+function tic_layout() {
+  if [[ -z "$TMUX" ]]; then
+    echo "not in a tmux session. attach first."
+    return 1
+  fi
+
+  local pane_path
+  pane_path="$(tmux display-message -p "#{pane_current_path}")"
+  local window_id
+  window_id="$(tmux display-message -p "#{window_id}")"
+
+  tmux kill-pane -a
+  tmux split-window -h -c "$pane_path" -l 40%
+  tmux split-window -v -t "$window_id".2 -c "$pane_path" -l 50%
+  tmux send-keys -t "$window_id".1 "nvim ." C-m
+  tmux send-keys -t "$window_id".2 "opencode" C-m
+  tmux select-pane -t "$window_id".1
+}

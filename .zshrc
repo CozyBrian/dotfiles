@@ -18,6 +18,7 @@ path=(
   "/usr/local/bin"
   "$HOME/.local/bin"
   "$HOME/.local/share/bob/nvim-bin"
+  "$HOME/.local/share/visualvm/bin"
   "$BUN_INSTALL/bin"
   "$HOME/.cozyutils/bin"
   $path
@@ -69,3 +70,4 @@ alias viewjacoco="cd build/reports/jacoco/test/html && python3 -m http.server 80
 [ -s "$HOME/.config/pd/pd.sh" ] && source "$HOME/.config/pd/pd.sh"
 
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
